@@ -1,0 +1,124 @@
+/* Define our typography classes using Tailwind's standard classes */
+@layer components {
+  /* Text XS (10px/14px) */
+  .text-xs-regular {
+    @apply text-[10px] leading-3.5 font-normal;
+  }
+  .text-xs-medium {
+    @apply text-[10px] leading-3.5 font-medium;
+  }
+
+  /* Text S (12px/16px) */
+  .text-s-regular {
+    @apply text-xs leading-4 font-normal;
+  }
+  .text-s-medium {
+    @apply text-xs leading-4 font-medium;
+  }
+  .text-s-semibold {
+    @apply text-xs leading-4 font-semibold;
+  }
+
+  /* Text M (14px/20px) - using Tailwind's standard base size */
+  .text-m-regular {
+    @apply text-[14px] leading-5 font-normal;
+  }
+  .text-m-medium {
+    @apply text-[14px] leading-5 font-medium;
+  }
+  .text-m-semibold {
+    @apply text-[14px] leading-5 font-semibold;
+  }
+
+  /* Text L (16px/20px) */
+  .text-l-regular {
+    @apply text-base leading-6 font-normal;
+  }
+  .text-l-medium {
+    @apply text-base leading-6 font-medium;
+  }
+  .text-l-semibold {
+    @apply text-base leading-6 font-semibold;
+  }
+
+  /* Heading 4 (20px/26px) */
+  .heading-4-regular {
+    @apply text-xl leading-[26px] font-normal;
+  }
+  .heading-4-medium {
+    @apply text-xl leading-[26px] font-medium;
+  }
+  .heading-4-semibold {
+    @apply text-xl leading-[26px] font-semibold;
+  }
+
+  /* Heading 3 (24px/30px) */
+  .heading-3-regular {
+    @apply text-2xl leading-[30px] font-normal;
+  }
+  .heading-3-medium {
+    @apply text-2xl leading-[30px] font-medium;
+  }
+  .heading-3-semibold {
+    @apply text-2xl leading-[30px] font-semibold;
+  }
+  .heading-3-bold {
+    @apply text-2xl leading-[30px] font-bold;
+  }
+
+  /* Heading 2 (32px/40px) */
+  .heading-2-regular {
+    @apply text-[32px] leading-10 font-normal;
+  }
+  .heading-2-medium {
+    @apply text-[32px] leading-10 font-medium;
+  }
+  .heading-2-semibold {
+    @apply text-[32px] leading-10 font-semibold;
+  }
+  .heading-2-bold {
+    @apply text-[32px] leading-10 font-bold;
+  }
+
+  /* Heading 1 (40px/50px) */
+  .heading-1-regular {
+    @apply text-[40px] leading-[50px] font-normal;
+  }
+  .heading-1-medium {
+    @apply text-[40px] leading-[50px] font-medium;
+  }
+  .heading-1-semibold {
+    @apply text-[40px] leading-[50px] font-semibold;
+  }
+  .heading-1-bold {
+    @apply text-[40px] leading-[50px] font-bold;
+  }
+
+  /* Heading 1 Large (60px/50px) */
+  .text-xl-regular {
+    @apply text-6xl leading-[50px] font-normal;
+  }
+  .text-xl-medium {
+    @apply text-6xl leading-[50px] font-medium;
+  }
+  .text-xl-semibold {
+    @apply text-6xl leading-[50px] font-semibold;
+  }
+  .text-xl-bold {
+    @apply text-6xl leading-[50px] font-bold;
+  }
+
+  /* Heading 1 XL (72px/88px) */
+  .text-xxl-regular {
+    @apply text-7xl leading-[88px] font-normal;
+  }
+  .text-xxl-medium {
+    @apply text-7xl leading-[88px] font-medium;
+  }
+  .text-xxl-semibold {
+    @apply text-7xl leading-[88px] font-semibold;
+  }
+  .text-xxl-bold {
+    @apply text-7xl leading-[88px] font-bold;
+  }
+}
