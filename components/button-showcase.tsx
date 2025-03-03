@@ -1,6 +1,18 @@
+'use client'
+
+import { useState } from 'react'
 import { Button } from './ui/button'
 
 export function ButtonShowcase() {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleClick = () => {
+    setIsLoading(true)
+    // Simulate an API call
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
+  }
   return (
     <div className="mx-auto mt-8 max-w-6xl p-8">
       <h2 className="mb-6 text-2xl font-bold">Button Components</h2>
@@ -9,7 +21,13 @@ export function ButtonShowcase() {
         <div>
           <h3 className="mb-4 text-xl font-semibold">Button Variants</h3>
           <div className="flex flex-wrap gap-4">
-            <Button variant="default">Default</Button>
+            <Button
+              variant="default"
+              isLoading={isLoading}
+              onClick={handleClick}
+            >
+              Default Button
+            </Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="outline" intent="primary">
               Outline Primary

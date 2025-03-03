@@ -1,6 +1,12 @@
+'use client'
+
+import animationData from '@/lib/lottie/loader.json'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { clsx } from 'clsx'
+import dynamic from 'next/dynamic'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
+
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
 const buttonVariants = cva(
   'inline-flex cursor-pointer items-center justify-center gap-[6px] rounded-[100px] px-[40px] transition-all transition-colors duration-300 ease-out focus-visible:outline-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
@@ -64,20 +70,35 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  isLoading?: boolean
+}
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, intent, size, ...props }, ref) => {
+  (
+    { className, variant, intent, size, children, isLoading, ...props },
+    ref
+  ) => {
     return (
       <button
         className={clsx(buttonVariants({ variant, intent, size, className }))}
         ref={ref}
         {...props}
-      />
+      >
+        {isLoading ? (
+          <Lottie
+            animationData={animationData}
+            className="flex h-9 w-9 items-center justify-center gap-[6px]"
+            loop={true}
+          />
+        ) : (
+          children
+        )}
+      </button>
     )
   }
 )
 
 Button.displayName = 'Button'
 
-export { Button, buttonVariants }
+export { Button }
