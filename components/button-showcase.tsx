@@ -56,7 +56,7 @@ export function ButtonShowcase() {
         <div>
           <h3 className="mb-4 text-xl font-semibold">Combined Variants</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
-            <Button variant="success" size="sm">
+            <Button variant="success" size="sm" isLoading={isLoading}>
               Small Success
             </Button>
             <Button variant="error" size="md">

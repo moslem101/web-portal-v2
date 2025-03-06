@@ -1,6 +1,6 @@
 'use client'
 
-import animationData from '@/lib/lottie/loader.json'
+import animationData from '@/public/lottie/loader.json'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { clsx } from 'clsx'
 import dynamic from 'next/dynamic'
@@ -76,19 +76,29 @@ export interface ButtonProps
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, intent, size, children, isLoading, ...props },
+    {
+      className,
+      variant,
+      intent,
+      size,
+      children,
+      isLoading,
+      disabled,
+      ...props
+    },
     ref
   ) => {
     return (
       <button
         className={clsx(buttonVariants({ variant, intent, size, className }))}
         ref={ref}
+        disabled={isLoading ? true : disabled}
         {...props}
       >
         {isLoading ? (
           <Lottie
             animationData={animationData}
-            className="flex h-9 w-9 items-center justify-center gap-[6px]"
+            className="flex h-5 w-5 items-center justify-center gap-[6px]"
             loop={true}
           />
         ) : (

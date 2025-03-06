@@ -1,3 +1,5 @@
+import { GTM_ID } from '@/lib/env'
+import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -13,6 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" translate="no" suppressHydrationWarning>
+      <GoogleTagManager gtmId={GTM_ID as string} />
       <body>{children}</body>
     </html>
   )
