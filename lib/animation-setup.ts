@@ -5,3 +5,5 @@ export const springTransition = {
   stiffness: 80,
   damping: 20,
 }
+
+export const dissolve = 'transition-all duration-300 ease-out'

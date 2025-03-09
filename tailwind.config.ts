@@ -12,18 +12,6 @@ const config: Config = {
         sans: ['BeVietnamPro', 'sans-serif'],
         bevietnam: ['BeVietnamPro', 'sans-serif'],
       },
-      fontSize: {
-        // Use Tailwind's default size names but override their values
-        xs: ['10px', { lineHeight: '14px' }],
-        sm: ['12px', { lineHeight: '16px' }],
-        base: ['16px', { lineHeight: '20px' }],
-        lg: ['20px', { lineHeight: '26px' }], // h4
-        xl: ['24px', { lineHeight: '30px' }], // h3
-        '2xl': ['32px', { lineHeight: '40px' }], // h2
-        '3xl': ['40px', { lineHeight: '50px' }], // h1
-        '4xl': ['60px', { lineHeight: '50px' }], // h1-large
-        '5xl': ['72px', { lineHeight: '88px' }], // h1-xl
-      },
       colors: {
         // Neutral colors
         neutral: {
@@ -113,6 +101,20 @@ const config: Config = {
         border: {
           DEFAULT: '#E5E5E5',
         },
+      },
+      keyframes: {
+        dissolveIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+        dissolveOut: {
+          from: { opacity: 1 },
+          to: { opacity: 0 },
+        },
+      },
+      animation: {
+        'dissolve-in': 'dissolveIn 300ms ease-out',
+        'dissolve-out': 'dissolveOut 300ms ease-out',
       },
     },
   },

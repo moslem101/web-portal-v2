@@ -1,5 +1,6 @@
 'use client'
 
+import { dissolve } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
 import * as React from 'react'
 
@@ -59,12 +60,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         <div
           className={cn(
-            'bg-neutral-0 transition-border flex w-full items-center gap-1 rounded-full border border-neutral-200 px-4 duration-300 ease-out',
+            'bg-neutral-0 flex w-full items-center gap-1 rounded-full border border-neutral-200 px-4',
             containerSizeClasses[model],
             endIcon ? 'justify-between' : '',
             disabled ? 'cursor-not-allowed text-neutral-300' : '',
             error ? 'border-error-500' : '',
             'focus-within:border-info-500',
+            dissolve,
             className
           )}
         >

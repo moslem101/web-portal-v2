@@ -1,104 +1,65 @@
 'use client'
 
-import { useState } from 'react'
-import { Button } from './ui/button'
+import { addDays, format } from 'date-fns'
+import { Calendar as CalendarIcon } from 'lucide-react'
+import * as React from 'react'
+import { DateRange } from 'react-day-picker'
 
-export function ButtonShowcase() {
-  const [isLoading, setIsLoading] = useState(false)
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
 
-  const handleClick = () => {
-    setIsLoading(true)
-    // Simulate an API call
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
-  }
+export function ButtonShowcase({
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  })
+
   return (
-    <div className="mx-auto mt-8 max-w-6xl p-8">
-      <h2 className="mb-6 text-2xl font-bold">Button Components</h2>
-
-      <div className="space-y-8">
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">Button Variants</h3>
-          <div className="flex flex-wrap gap-4">
-            <Button
-              variant="default"
-              isLoading={isLoading}
-              onClick={handleClick}
-            >
-              Default Button
-            </Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="outline" intent="primary">
-              Outline Primary
-            </Button>
-            <Button variant="outline" intent="secondary">
-              Outline Secondary
-            </Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="success">Success</Button>
-            <Button variant="error">Error</Button>
-            <Button variant="warning">Warning</Button>
-            <Button variant="info">Info</Button>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">Button Sizes</h3>
-          <div className="flex flex-wrap items-center gap-4">
-            <Button size="xs">Tiny</Button>
-            <Button size="sm">Small</Button>
-            <Button size="md">Medium</Button>
-            <Button size="lg">Large</Button>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">Combined Variants</h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
-            <Button variant="success" size="sm" isLoading={isLoading}>
-              Small Success
-            </Button>
-            <Button variant="error" size="md">
-              Medium Error
-            </Button>
-            <Button variant="warning" size="lg">
-              Large Warning
-            </Button>
-            <Button variant="info" size="sm">
-              Small Info
-            </Button>
-            <Button variant="outline" size="md">
-              Medium Outline
-            </Button>
-            <Button variant="ghost" size="lg">
-              Large Ghost
-            </Button>
-            <Button variant="secondary" size="sm">
-              Small Secondary
-            </Button>
-            <Button variant="default" size="lg">
-              Large Default
-            </Button>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">Disabled State</h3>
-          <div className="flex flex-wrap gap-4">
-            <Button disabled>Default Disabled</Button>
-            <Button variant="secondary" disabled>
-              Secondary Disabled
-            </Button>
-            <Button variant="outline" intent="primary" disabled>
-              Outline Primary Disabled
-            </Button>
-            <Button variant="ghost" disabled>
-              Ghost Disabled
-            </Button>
-          </div>
-        </div>
-      </div>
+    <div className={cn('grid gap-2', className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={'outline'}
+            className={cn(
+              'w-[300px] justify-start text-left font-normal',
+              !date && 'text-muted-foreground'
+            )}
+          >
+            <CalendarIcon />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, 'LLL dd, y')} -{' '}
+                  {format(date.to, 'LLL dd, y')}
+                </>
+              ) : (
+                format(date.from, 'LLL dd, y')
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   )
 }

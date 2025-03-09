@@ -1,5 +1,6 @@
 'use client'
 
+import { dissolve } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { Circle } from 'lucide-react'
@@ -34,13 +35,19 @@ const RadioGroupItem = React.forwardRef<
         ref={ref}
         id={props.id || id}
         className={cn(
-          'peer data-[state=checked]:bg-neutral-0 data-[state=checked]:text-neutral-0 disabled:bg-primary-200 data-[state=checked]:border-primary-500 h-[16px] w-[16px] shrink-0 cursor-pointer rounded-full border-[0.5px] border-neutral-300 bg-white transition-all duration-300 ease-out outline-none disabled:cursor-not-allowed',
+          'peer data-[state=checked]:bg-neutral-0 data-[state=checked]:text-neutral-0 disabled:bg-primary-200 data-[state=checked]:border-primary-500 h-[16px] w-[16px] shrink-0 cursor-pointer rounded-full border-[0.5px] border-neutral-300 bg-white outline-none disabled:cursor-not-allowed',
+          dissolve,
           className
         )}
         {...props}
       >
         <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-          <Circle className="text-primary-500 fill-primary-500 h-[14px] w-[14px] transition-all duration-300 ease-out data-[state=checked]:scale-100 data-[state=unchecked]:scale-0" />
+          <Circle
+            className={cn(
+              'text-primary-500 fill-primary-500 h-[13px] w-[13px] data-[state=checked]:scale-100 data-[state=unchecked]:scale-0',
+              dissolve
+            )}
+          />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
 

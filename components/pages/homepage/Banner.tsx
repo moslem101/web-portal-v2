@@ -1,5 +1,6 @@
 'use client'
 
+import SearchWidget from '@/components/pages/homepage/Widget'
 import { springTransition } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
 import Text from '@/public/images/Text.png'
@@ -72,6 +73,7 @@ const Banner: React.FC<BannerProps> = ({ className }) => {
           alt="image-text-banner"
           priority
         />
+        <SearchWidget />
       </div>
     </div>
   )
