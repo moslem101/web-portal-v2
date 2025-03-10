@@ -1,13 +1,11 @@
-// components/AirportSearch.tsx
 import { SearchIcon } from '@/components/icons/search'
 import InfiniteScroll from '@/components/ui/infinite-scroll'
 import { Input } from '@/components/ui/input'
+import { useAirportSearch } from '@/hooks/pages/homepage'
 import { dissolve } from '@/lib/animation-setup'
 import { capitalizeText } from '@/lib/utils'
-import { getAirports } from '@/services/airport-service'
 import { Airport } from '@/types/AirportProps'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
+import React from 'react'
 import { AirportSkeletonList } from './AirportSkeleton'
 
 interface AirportSearchProps {
@@ -23,130 +21,27 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
   selectedDepartureAirport,
   selectedArrivalAirport,
 }) => {
-  // State for departure airports
-  const [departureSearchQuery, setDepartureSearchQuery] = useState('')
-  const [departureAirports, setDepartureAirports] = useState<Airport[]>([])
-  const [departureLoading, setDepartureLoading] = useState(false)
-  const [departureHasMore, setDepartureHasMore] = useState(true)
-  const [departurePage, setDeparturePage] = useState(1)
+  // Use the custom hook for departure airports
+  const {
+    data: departureAirports,
+    loading: departureLoading,
+    initialLoading,
+    hasMore: departureHasMore,
+    error,
+    searchQuery: departureSearchQuery,
+    handleSearchChange: handleDepartureSearchChange,
+    loadMore: loadMoreDepartureAirports,
+  } = useAirportSearch()
 
-  // State for arrival airports
-  const [arrivalSearchQuery, setArrivalSearchQuery] = useState('')
-  const [arrivalAirports, setArrivalAirports] = useState<Airport[]>([])
-  const [arrivalLoading, setArrivalLoading] = useState(false)
-  const [arrivalHasMore, setArrivalHasMore] = useState(true)
-  const [arrivalPage, setArrivalPage] = useState(1)
-
-  // Shared states
-  const [initialLoading, setInitialLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-  const PAGE_SIZE = 15
-
-  // Function to fetch airports - can be reused for both departure and arrival
-  const fetchAirports = useCallback(
-    async (pageNum: number, query: string = '') => {
-      try {
-        const response = await getAirports({
-          page: pageNum,
-          size: PAGE_SIZE,
-          search: query,
-        })
-        return response
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error('Failed to fetch airports')
-        )
-        return { results: [], total: 0 }
-      }
-    },
-    []
-  )
-
-  // Initial data load
-  useEffect(() => {
-    const loadInitialData = async () => {
-      setInitialLoading(true)
-
-      // Fetch departure airports
-      const departureData = await fetchAirports(1, departureSearchQuery)
-      setDepartureAirports(departureData.results)
-      setDepartureHasMore(departureData.results.length < departureData.total)
-      setDeparturePage(1)
-
-      // Fetch arrival airports
-      const arrivalData = await fetchAirports(1, arrivalSearchQuery)
-      setArrivalAirports(arrivalData.results)
-      setArrivalHasMore(arrivalData.results.length < arrivalData.total)
-      setArrivalPage(1)
-
-      setInitialLoading(false)
-    }
-
-    loadInitialData()
-  }, [departureSearchQuery, arrivalSearchQuery, fetchAirports])
-
-  // Load more departure airports
-  const loadMoreDepartureAirports = useCallback(async () => {
-    if (departureLoading) return
-
-    setDepartureLoading(true)
-    const nextPage = departurePage + 1
-    const data = await fetchAirports(nextPage, departureSearchQuery)
-
-    if (data.results.length > 0) {
-      setDepartureAirports((prev) => [...prev, ...data.results])
-      setDeparturePage(nextPage)
-    }
-
-    setDepartureHasMore(
-      departureAirports.length + data.results.length < data.total
-    )
-    setDepartureLoading(false)
-  }, [
-    fetchAirports,
-    departureLoading,
-    departurePage,
-    departureSearchQuery,
-    departureAirports.length,
-  ])
-
-  // Load more arrival airports
-  const loadMoreArrivalAirports = useCallback(async () => {
-    if (arrivalLoading) return
-
-    setArrivalLoading(true)
-    const nextPage = arrivalPage + 1
-    const data = await fetchAirports(nextPage, arrivalSearchQuery)
-
-    if (data.results.length > 0) {
-      setArrivalAirports((prev) => [...prev, ...data.results])
-      setArrivalPage(nextPage)
-    }
-
-    setArrivalHasMore(arrivalAirports.length + data.results.length < data.total)
-    setArrivalLoading(false)
-  }, [
-    fetchAirports,
-    arrivalLoading,
-    arrivalPage,
-    arrivalSearchQuery,
-    arrivalAirports.length,
-  ])
-
-  // Search handlers with debounce
-  const handleDepartureSearchChange = useDebouncedCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDepartureSearchQuery(e.target.value)
-    },
-    300
-  )
-
-  const handleArrivalSearchChange = useDebouncedCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setArrivalSearchQuery(e.target.value)
-    },
-    300
-  )
+  // Use the custom hook for arrival airports
+  const {
+    data: arrivalAirports,
+    loading: arrivalLoading,
+    hasMore: arrivalHasMore,
+    searchQuery: arrivalSearchQuery,
+    handleSearchChange: handleArrivalSearchChange,
+    loadMore: loadMoreArrivalAirports,
+  } = useAirportSearch()
 
   // Render skeleton if initial loading
   if (initialLoading) {
@@ -161,11 +56,10 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
               <Input
                 className="py-2"
                 placeholder="Cari Bandara"
-                disabled
                 endIcon={<SearchIcon size={18} className="text-neutral-900" />}
               />
             </div>
-            <div className="scrollbar-hide max-h-60 overflow-y-auto">
+            <div className="scrollbar-hide h-60 overflow-y-auto">
               <AirportSkeletonList count={5} />
             </div>
           </div>
@@ -178,11 +72,10 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
               <Input
                 className="py-2"
                 placeholder="Cari Bandara"
-                disabled
                 endIcon={<SearchIcon size={18} className="text-neutral-900" />}
               />
             </div>
-            <div className="scrollbar-hide max-h-60 overflow-y-auto">
+            <div className="scrollbar-hide h-60 overflow-y-auto">
               <AirportSkeletonList count={5} />
             </div>
           </div>
@@ -210,7 +103,7 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
           </div>
 
           {/* Results container */}
-          <div className="scrollbar-hide max-h-60 overflow-y-auto">
+          <div className="scrollbar-hide h-60 max-h-60 overflow-y-auto">
             {/* Error message */}
             {error && (
               <div className="grid h-60 place-content-center p-3 text-center text-red-500">
@@ -226,12 +119,12 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
                 next={loadMoreDepartureAirports}
                 threshold={0.8}
               >
-                {departureAirports.map((airport) => (
+                {departureAirports.map((airport: any) => (
                   <div
                     key={`departure-airport-${airport.id}`}
                     className={`flex cursor-pointer items-center border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${
                       selectedDepartureAirport?.id === airport.id
-                        ? 'bg-primary-50'
+                        ? 'bg-primary-400'
                         : ''
                     }`}
                     onClick={() => onSelectDepartureAirport(airport)}
@@ -279,7 +172,7 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
           </div>
 
           {/* Results container */}
-          <div className="scrollbar-hide max-h-60 overflow-y-auto">
+          <div className="scrollbar-hide h-60 overflow-y-auto">
             {/* Error message */}
             {error && (
               <div className="grid h-60 place-content-center p-3 text-center text-red-500">
@@ -295,12 +188,12 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
                 next={loadMoreArrivalAirports}
                 threshold={0.8}
               >
-                {arrivalAirports.map((airport) => (
+                {arrivalAirports.map((airport: any) => (
                   <div
                     key={`arrival-airport-${airport.id}`}
                     className={`flex cursor-pointer items-center border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${
                       selectedArrivalAirport?.id === airport.id
-                        ? 'bg-primary-50'
+                        ? 'bg-primary-400'
                         : ''
                     }`}
                     onClick={() => onSelectArrivalAirport(airport)}

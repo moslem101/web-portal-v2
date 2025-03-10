@@ -1,4 +1,3 @@
-// components/pages/homepage/SearchFilter/AirportFilter.tsx
 'use client'
 
 import { AirportIcon } from '@/components/icons/airport'

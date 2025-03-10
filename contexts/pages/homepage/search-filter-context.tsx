@@ -1,13 +1,18 @@
 'use client'
 
+import { Airline } from '@/types/AirlineProps'
 import { Airport } from '@/types/AirportProps'
 import React, { createContext, useCallback, useContext, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 
 interface SearchFilterContextType {
   // Filter states
+
+  // Rating state
   hotelStars: number
   setHotelStars: (stars: number) => void
+
+  // Date states
   dateRange: DateRange | undefined
   setDateRange: (range: DateRange | undefined) => void
 
@@ -22,8 +27,8 @@ interface SearchFilterContextType {
   setArrivalAirport: (airport: Airport) => void
 
   // Airline state
-  airline: string
-  setAirline: (airline: string) => void
+  airline: Airline | null
+  setAirline: (airline: Airline) => void
 
   // Form submission
   isDisabled: boolean
@@ -53,7 +58,7 @@ export const SearchFilterProvider: React.FC<{
   const [arrivalAirport, setArrivalAirport] = useState<Airport | null>(null)
 
   // Airline state
-  const [airline, setAirline] = useState<string>('')
+  const [airline, setAirline] = useState<Airline | null>(null)
 
   // Form states
   const [isDisabled, setIsDisabled] = useState<boolean>(initialDisabled)
@@ -67,7 +72,7 @@ export const SearchFilterProvider: React.FC<{
       hotelStars,
       departureDate: dateRange?.from ? dateRange.from.toISOString() : null,
       returnDate: dateRange?.to ? dateRange.to.toISOString() : null,
-      airport: selectedAirport?.code, // Legacy support
+      airport: selectedAirport?.code,
       departureAirport: departureAirport?.code,
       arrivalAirport: arrivalAirport?.code,
       airline,

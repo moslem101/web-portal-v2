@@ -1,4 +1,3 @@
-// components/AirportSkeleton.tsx
 import React from 'react'
 
 const AirportSkeleton: React.FC = () => {
@@ -23,5 +22,3 @@ export const AirportSkeletonList: React.FC<{ count?: number }> = ({
     </>
   )
 }
-
-export default AirportSkeleton

@@ -65,6 +65,7 @@ const DateFilter: React.FC = () => {
           selected={dateRange}
           onSelect={setDateRange}
           numberOfMonths={2}
+          locale={id}
         />
       </PopoverContent>
     </Popover>
