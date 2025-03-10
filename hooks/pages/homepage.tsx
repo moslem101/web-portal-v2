@@ -1,7 +1,7 @@
 import { getAirline, getAirports } from '@/services/general-service'
 import { Airline } from '@/types/AirlineProps'
 import { Airport } from '@/types/AirportProps'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 interface UseSearchParams {
@@ -190,47 +190,5 @@ export function useAirlineSearch({
     setSearchQuery,
     handleSearchChange,
     loadMore: loadMoreAirlines,
-  }
-}
-interface ScrollToSelectedProps<T> {
-  items: T[]
-  selectedItem: T | null | undefined
-  idKey?: keyof T
-  behavior?: ScrollBehavior
-  block?: ScrollLogicalPosition
-}
-
-export function useScrollToSelected<T>({
-  items,
-  selectedItem,
-  idKey = 'id' as keyof T,
-  behavior = 'smooth',
-  block = 'nearest',
-}: ScrollToSelectedProps<T>) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const selectedItemRef = useRef<HTMLDivElement>(null)
-
-  // Scroll to selected item when items or selected item changes
-  useEffect(() => {
-    if (selectedItem && items.length > 0 && selectedItemRef.current) {
-      selectedItemRef.current.scrollIntoView({ behavior, block })
-    }
-  }, [items, selectedItem, behavior, block])
-
-  // Function to determine if an item is selected
-  const isItemSelected = (item: T) => {
-    if (!selectedItem) return false
-    return selectedItem[idKey] === item[idKey]
-  }
-
-  // Function to get the appropriate ref for an item
-  const getItemRef = (item: T) => {
-    return isItemSelected(item) ? selectedItemRef : null
-  }
-
-  return {
-    containerRef,
-    getItemRef,
-    isItemSelected,
   }
 }

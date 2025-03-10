@@ -124,7 +124,7 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
                     key={`departure-airport-${airport.id}`}
                     className={`flex cursor-pointer items-center border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${
                       selectedDepartureAirport?.id === airport.id
-                        ? 'bg-primary-400'
+                        ? 'bg-primary-100'
                         : ''
                     }`}
                     onClick={() => onSelectDepartureAirport(airport)}
@@ -193,7 +193,7 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
                     key={`arrival-airport-${airport.id}`}
                     className={`flex cursor-pointer items-center border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${
                       selectedArrivalAirport?.id === airport.id
-                        ? 'bg-primary-400'
+                        ? 'bg-primary-100'
                         : ''
                     }`}
                     onClick={() => onSelectArrivalAirport(airport)}

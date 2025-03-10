@@ -81,7 +81,7 @@ const AirlineList: React.FC<AirlineSearchProps> = ({
               <div
                 key={`airline-${airline.id}`}
                 className={`flex cursor-pointer items-center justify-between gap-2.5 border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${
-                  selectedAirline?.id === airline.id ? 'bg-primary-400' : ''
+                  selectedAirline?.id === airline.id ? 'bg-primary-100' : ''
                 }`}
                 onClick={() => onSelectAirline(airline)}
               >

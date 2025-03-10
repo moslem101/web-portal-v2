@@ -1,12 +1,13 @@
 'use client'
 
+import { LockIcon } from '@/components/icons/lock'
 import { MaximizeIcon } from '@/components/icons/maximize'
 import { SearchIcon } from '@/components/icons/search'
 import SearchFilters from '@/components/pages/homepage/SearchFilter'
 import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
 import { dissolve, springTransition } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { MapPin } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -129,67 +130,37 @@ const SearchWidget: React.FC<SearchWidgetProps> = ({ className }) => {
         </NotchedContainer>
 
         {/* Conditional feature availability widgets */}
-        {/* <AnimatePresence>
+        <AnimatePresence>
           {activeTab === 'haji' && (
             <motion.div
-              className="mt-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-0 items-center gap-0.5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={springTransition}
             >
-              <NotchedContainer>
-                <div className="p-6">
-                  <div className="flex items-center gap-3">
-                    <Lock size={20} className="text-neutral-700" />
-                    <p className="text-m-medium text-neutral-700">
-                      Fitur Haji saat ini belum tersedia. Nantikan fitur ini
-                      kedepannya!
-                    </p>
-                  </div>
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      disabled
-                      className="flex cursor-not-allowed items-center gap-2 rounded-full bg-neutral-200 px-5 py-2 font-medium text-neutral-500"
-                    >
-                      Cari
-                    </button>
-                  </div>
-                </div>
-              </NotchedContainer>
+              <LockIcon size={24} />
+              <p className="text-l-regular text-neutral-900">
+                Fitur Haji saat ini belum tersedia. Nantikan fitur ini
+                kedepannya!
+              </p>
             </motion.div>
           )}
 
           {activeTab === 'halal-trip' && (
             <motion.div
-              className="mt-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-0 items-center gap-0.5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={springTransition}
             >
-              <NotchedContainer>
-                <div className="p-6">
-                  <div className="flex items-center gap-3">
-                    <Lock size={20} className="text-neutral-700" />
-                    <p className="text-m-medium text-neutral-700">
-                      Fitur Halal Trip saat ini belum tersedia. Nantikan fitur
-                      ini kedepannya!
-                    </p>
-                  </div>
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      disabled
-                      className="flex cursor-not-allowed items-center gap-2 rounded-full bg-neutral-200 px-5 py-2 font-medium text-neutral-500"
-                    >
-                      Cari
-                    </button>
-                  </div>
-                </div>
-              </NotchedContainer>
+              <LockIcon size={24} />
+              <p className="text-l-regular text-neutral-900">
+                Fitur Halal Trip saat ini belum tersedia. Nantikan fitur ini
+                kedepannya!
+              </p>
             </motion.div>
           )}
-        </AnimatePresence> */}
+        </AnimatePresence>
       </div>
     </motion.div>
   )
