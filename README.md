@@ -2,6 +2,10 @@
 
 This README provides guidelines for adding and customizing components in our Next.js application using shadcn/ui. Our project uses Tailwind CSS for styling and follows a consistent design system with custom colors and typography.
 
+Need to Improve:
+
+1. In Widget Component Search Filter should auto focus to the selected list when already selected from the list
+
 ## Table of Contents
 
 - [Setup](#setup)

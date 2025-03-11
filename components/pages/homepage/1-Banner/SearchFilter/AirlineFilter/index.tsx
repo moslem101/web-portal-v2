@@ -2,7 +2,7 @@
 'use client'
 
 import { AirlineIcon } from '@/components/icons/airline'
-import AirlineList from '@/components/pages/homepage/SearchFilter/AirlineFilter/AirlineList'
+import AirlineList from '@/components/pages/homepage/1-Banner/SearchFilter/AirlineFilter/AirlineList'
 import {
   Popover,
   PopoverContent,

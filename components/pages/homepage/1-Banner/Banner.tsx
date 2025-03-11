@@ -1,6 +1,6 @@
 'use client'
 
-import SearchWidget from '@/components/pages/homepage/Widget'
+import SearchWidget from '@/components/pages/homepage/1-Banner/Widget'
 import { springTransition } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
 import Text from '@/public/images/Text.png'

@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDownIcon } from '@/components/icons/chevron-down'
+import { ChevronIcon } from '@/components/icons/chevron'
 import { Muslim101Logo } from '@/components/icons/muslim101'
 import { SearchIcon } from '@/components/icons/search'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -248,7 +248,7 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
                     <span className="text-m-regular text-neutral-900">
                       Untuk Mitra/Wukala
                     </span>
-                    <ChevronDownIcon size={16} />
+                    <ChevronIcon size={16} />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent align="end" sideOffset={8}>

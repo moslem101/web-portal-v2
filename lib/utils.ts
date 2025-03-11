@@ -29,3 +29,44 @@ export function capitalizeText(text: string): string {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
 }
+
+export function formatCurrency(value?: string | number): string {
+  if (!value) return '-'
+  let numericValue: number
+
+  if (typeof value === 'number') {
+    numericValue = value
+  } else {
+    numericValue = parseFloat(value?.replace(/[^0-9.-]+/g, '')) // Parse numeric part from string
+  }
+
+  if (isNaN(numericValue)) {
+    return 'Rp.0' // Return a default value if parsing fails
+  }
+
+  const result = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  })
+    .format(numericValue * (numericValue < 0 ? -1 : 1))
+    .replace(/\s/g, '')
+
+  return numericValue < 0 ? `-${result}` : result
+}
+
+export const formatNumberCurrency = (value: string) => {
+  const numericValue = parseInt(value.replace(/\D/g, ''), 10)
+  return isNaN(numericValue)
+    ? ''
+    : new Intl.NumberFormat('id-ID', {
+        style: 'decimal',
+        maximumFractionDigits: 0,
+      }).format(numericValue)
+}
+
+export const getMinimumNonZeroPrice = (
+  ...prices: (string | number | undefined)[]
+): number => {
+  return Math.min(...prices.map(Number).filter((price) => price > 0)) || 0
+}

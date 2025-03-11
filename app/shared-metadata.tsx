@@ -1,4 +1,4 @@
-export const metadata = (title: any, description: any, image: any) => ({
+export const metadata = (title: any, description: any, image?: any) => ({
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL as string),
   title: title,
   description: description,

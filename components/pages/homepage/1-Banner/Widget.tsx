@@ -3,7 +3,7 @@
 import { LockIcon } from '@/components/icons/lock'
 import { MaximizeIcon } from '@/components/icons/maximize'
 import { SearchIcon } from '@/components/icons/search'
-import SearchFilters from '@/components/pages/homepage/SearchFilter'
+import SearchFilters from '@/components/pages/homepage/1-Banner/SearchFilter'
 import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
 import { dissolve, springTransition } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
