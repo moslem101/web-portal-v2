@@ -1,20 +1,14 @@
 import { api } from '@/services/common/http'
-import { GenericResponse } from '@/types/GeneralProps'
-import { GetTravelParams, Travel } from '@/types/TravelProps'
+import { GenericResponse, GetListQuery } from '@/types/GeneralProps'
+import qs from 'query-string'
+import { Travel } from '@/types/TravelProps'
 
-export async function getTravels({
-  page = 1,
-  size = 20,
-}: GetTravelParams): Promise<GenericResponse<Travel>> {
+export async function getTravels(
+  query: GetListQuery
+): Promise<GenericResponse<Travel>> {
   try {
     const response = await api.get(
-      `/public/identity/v1/organization-instance-selected/published`,
-      {
-        params: {
-          page,
-          size,
-        },
-      }
+      `/public/identity/v1/organization-instance-selected/published?${qs.stringify(query)}`
     )
     return response.data
   } catch (error) {

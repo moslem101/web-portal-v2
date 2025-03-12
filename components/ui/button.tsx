@@ -10,7 +10,7 @@ import { ButtonHTMLAttributes, forwardRef } from 'react'
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
 const buttonVariants = cva(
-  'inline-flex cursor-pointer items-center justify-center gap-[6px] rounded-[100px] px-[40px] focus-visible:outline-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+  'inline-flex cursor-pointer items-center justify-center rounded-[100px] focus-visible:outline-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {

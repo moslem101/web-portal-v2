@@ -328,6 +328,18 @@
   resolved "https://registry.yarnpkg.com/@nolyfill/is-core-module/-/is-core-module-1.0.39.tgz#3dc35ba0f1e66b403c00b39344f870298ebb1c8e"
   integrity sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==
 
+"@odx/assets-utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@odx/assets-utils/-/assets-utils-1.0.0.tgz#02abc250fa7d62ee3f91f806ab0c157a72027758"
+  integrity sha512-tFevWZRUPLy/0ZYohizc5BQY4pZglMTQlmxVKpNicMNSJdDJp2O5JyDcQpfdG8SRTA9TAbzUj42TIklsvWEHaQ==
+
+"@odx/flag-icons@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@odx/flag-icons/-/flag-icons-1.0.0.tgz#8d69b7c0379809cba0a3d8f567c26998b37e9b73"
+  integrity sha512-0IcuNxrTUx488+bCCNYGfY1+5HtQY1JMdIsj+CcC1nqcFq6JXoxcJ1HMKRo/NBS4SgHqThCRPiVwmjsRVfjx5g==
+  dependencies:
+    "@odx/assets-utils" "^1.0.0"
+
 "@radix-ui/number@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.1.0.tgz#1e95610461a09cdf8bb05c152e76ca1278d5da46"
@@ -2947,6 +2959,10 @@ split-on-first@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/split-on-first/-/split-on-first-3.0.0.tgz#f04959c9ea8101b9b0bbf35a61b9ebea784a23e7"
   integrity sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==
+
+"square-flags@https://github.com/kapowaz/square-flags":
+  version "1.2.0"
+  resolved "https://github.com/kapowaz/square-flags#ce7775d4c4e7c0391e770456e1ddf62103f0e8fa"
 
 stable-hash@^0.0.4:
   version "0.0.4"

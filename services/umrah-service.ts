@@ -1,21 +1,33 @@
 import { api } from '@/services/common/http'
-import { Banner, GetBannerParams } from '@/types/BannnerProps'
-import { GenericResponse } from '@/types/GeneralProps'
+import { Banner } from '@/types/BannerProps'
+import { GenericResponse, GetListQuery } from '@/types/GeneralProps'
+import { Package } from '@/types/PackageProps'
+import qs from 'query-string'
 
-export async function getBanner({
-  page = 1,
-  size = 10,
-}: GetBannerParams): Promise<GenericResponse<Banner>> {
+export async function getBanner(
+  query: GetListQuery
+): Promise<GenericResponse<Banner>> {
   try {
-    const response = await api.get(`/public/umrah/v1/banner`, {
-      params: {
-        page,
-        size,
-      },
-    })
+    const response = await api.get(
+      `/public/umrah/v1/banner?${qs.stringify(query)}`
+    )
     return response.data
   } catch (error) {
     console.error('Error fetching banner:', error)
+    throw error
+  }
+}
+
+export async function getPackageList(
+  query: GetListQuery
+): Promise<GenericResponse<Package>> {
+  try {
+    const response = await api.get(
+      `/public/umrah/v2/package?${qs.stringify(query)}`
+    )
+    return response.data
+  } catch (error) {
+    console.error('Error fetching package data list:', error)
     throw error
   }
 }

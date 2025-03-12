@@ -1,14 +1,12 @@
 import { metadata } from '@/app/shared-metadata'
-import { ButtonShowcase } from '@/components/button-showcase'
-import { CheckboxDemo } from '@/components/checkbox-showcase'
-import { ColorShowcase } from '@/components/color-showcase'
-import InputDemo from '@/components/input-showcase'
 import Banner from '@/components/pages/homepage/1-Banner/Banner'
 import { CarouselBanner } from '@/components/pages/homepage/2-Carousel/Carousel'
 import { CarouselTravel } from '@/components/pages/homepage/3-Travels/Travels'
+import { PackageListEvent } from '@/components/pages/homepage/4-PackageList/PackageListEvent'
 import Topbar from '@/components/shared/Topbar'
+import { mapProductsToCardData } from '@/lib/utils'
 import { getTravels } from '@/services/identity-service'
-import { getBanner } from '@/services/umrah-service'
+import { getBanner, getPackageList } from '@/services/umrah-service'
 import { Fragment, Suspense } from 'react'
 
 // Skeleton loaders for the carousels
@@ -52,10 +50,42 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const [dataBannerCarousel, dataTravels] = await Promise.all([
-    getBanner({ page: 1, size: 10 }),
-    getTravels({ page: 1, size: 20 }),
-  ])
+  const [dataBannerCarousel, dataTravels, dataPromo, dataPlus, dataRegular] =
+    await Promise.all([
+      getBanner({
+        page: 1,
+        size: 10,
+        order: 'desc',
+        orderBy: 'createdAt',
+      }),
+      getTravels({
+        page: 1,
+        size: 12,
+        order: 'desc',
+        orderBy: 'organizationInstance.createdAt',
+      }),
+      getPackageList({
+        page: 1,
+        size: 12,
+        section: 'promo',
+        order: 'desc',
+        orderBy: 'package.createdAt',
+      }),
+      getPackageList({
+        page: 1,
+        size: 12,
+        section: 'plus',
+        order: 'desc',
+        orderBy: 'package.createdAt',
+      }),
+      getPackageList({
+        page: 1,
+        size: 12,
+        section: 'regular',
+        order: 'desc',
+        orderBy: 'package.createdAt',
+      }),
+    ])
 
   return (
     <Fragment>
@@ -70,10 +100,11 @@ export default async function Home() {
           <CarouselTravel dataTravel={dataTravels} />
         </Suspense>
 
-        <ColorShowcase />
-        <ButtonShowcase />
-        <CheckboxDemo />
-        <InputDemo />
+        <PackageListEvent
+          dataPromo={mapProductsToCardData(dataPromo)}
+          dataPlus={mapProductsToCardData(dataPlus)}
+          dataRegular={mapProductsToCardData(dataRegular)}
+        />
       </main>
     </Fragment>
   )

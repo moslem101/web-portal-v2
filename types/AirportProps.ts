@@ -8,6 +8,10 @@ export type Airport = {
   countryName: string
 }
 
+export interface AirportReference {
+  airport: Airport
+  airportId: number
+}
 export interface GetAirportsParams {
   page?: number
   size?: number

@@ -7,6 +7,7 @@ import * as React from 'react'
 
 import { ChevronIcon } from '@/components/icons/chevron'
 import { Button } from '@/components/ui/button'
+import { dissolve } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -181,10 +182,11 @@ function CarouselPrevious({
     <button
       data-slot="carousel-previous"
       className={cn(
-        'bg-neutral-0 absolute grid size-12 h-12 cursor-pointer place-content-center rounded-full p-0',
+        'bg-neutral-0 absolute grid size-12 h-12 cursor-pointer place-content-center rounded-full p-0 hover:bg-neutral-200  disabled:hidden disabled:bg-neutral-400',
         orientation === 'horizontal'
           ? 'top-1/2 -left-6 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
+        dissolve,
         className
       )}
       style={{
@@ -209,10 +211,11 @@ function CarouselNext({
     <button
       data-slot="carousel-next"
       className={cn(
-        'bg-neutral-0 absolute grid size-12 h-12 cursor-pointer place-content-center rounded-full p-0',
+        'bg-neutral-0 absolute grid size-12 h-12 cursor-pointer place-content-center rounded-full p-0 hover:bg-neutral-200  disabled:hidden disabled:bg-neutral-400',
         orientation === 'horizontal'
           ? 'top-1/2 -right-6 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
+        dissolve,
         className
       )}
       disabled={!canScrollNext}

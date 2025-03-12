@@ -11,7 +11,7 @@ import { GenericResponse } from '@/types/GeneralProps'
 import { Travel } from '@/types/TravelProps'
 import Autoplay from 'embla-carousel-autoplay'
 import Image from 'next/image'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 
 export function CarouselTravel({
   dataTravel,
@@ -27,13 +27,14 @@ export function CarouselTravel({
   }
 
   return (
-    <Fragment>
+    <section>
       <Separator className="mt-[60px]" />
       <Carousel
         opts={{
           align: 'end',
           loop: true,
           inViewThreshold: 1,
+          watchDrag: false,
         }}
         plugins={[
           Autoplay({
@@ -70,6 +71,6 @@ export function CarouselTravel({
         </CarouselContent>
       </Carousel>
       <Separator />
-    </Fragment>
+    </section>
   )
 }

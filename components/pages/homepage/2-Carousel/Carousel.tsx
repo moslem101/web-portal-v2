@@ -9,11 +9,11 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { dissolve } from '@/lib/animation-setup'
-import { Banner } from '@/types/BannnerProps'
+import { Banner } from '@/types/BannerProps'
 import { GenericResponse } from '@/types/GeneralProps'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 
 export function CarouselBanner({
   dataBanner,
@@ -29,7 +29,7 @@ export function CarouselBanner({
   }
 
   return (
-    <Fragment>
+    <section>
       <p className="heading-2-bold mt-16 mb-0.5 text-neutral-900">
         Program Muslim101
       </p>
@@ -74,6 +74,6 @@ export function CarouselBanner({
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-    </Fragment>
+    </section>
   )
 }

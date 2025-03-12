@@ -1,3 +1,5 @@
+import { GenericResponse } from '@/types/GeneralProps'
+import { CardData, Package } from '@/types/PackageProps'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -69,4 +71,77 @@ export const getMinimumNonZeroPrice = (
   ...prices: (string | number | undefined)[]
 ): number => {
   return Math.min(...prices.map(Number).filter((price) => price > 0)) || 0
+}
+
+export const getMaximumNonZeroPrice = (
+  ...prices: (string | number | undefined)[]
+): number => {
+  return Math.max(...prices.map(Number).filter((price) => price > 0)) || 0
+}
+
+export const handleDiscountType = (
+  discountType: string,
+  discount: string | number
+) => {
+  if (discountType === 'percentage') {
+    return `${discount || 0}%`
+  }
+  return `${formatCurrency(discount || 0)}`
+}
+
+export const isValidImage = (fileName: any) => {
+  const allowedFormats = ['jpg', 'jpeg', 'png', 'gif']
+  const extension = fileName?.split('.').pop().toLowerCase()
+
+  return allowedFormats.includes(extension)
+}
+
+export function mapProductsToCardData(
+  products: GenericResponse<Package>
+): CardData[] {
+  return (
+    products?.results?.map((product: Package) => ({
+      id: product?.id ?? 0,
+      src: product.thumbnail || '',
+      discount: product.packageVariant?.discountAmount ?? '0',
+      discountType: product.packageVariant?.discountType,
+      title: product.title || 'No Title',
+      location: product.organizationInstance?.name || 'Unknown',
+      district: product.organizationInstance?.city?.name || 'Unknown',
+      organizationName: product.organizationInstance?.name || 'Unknown',
+      originalPrice: product.packageVariant
+        ? formatCurrency(
+            getMinimumNonZeroPrice(
+              Number(product.packageVariant?.originalPriceDouble),
+              Number(product.packageVariant?.originalPriceTriple),
+              Number(product.packageVariant?.originalPriceQuad)
+            )
+          )
+        : 'Rp0',
+      price: product.packageVariant
+        ? formatCurrency(
+            getMinimumNonZeroPrice(
+              Number(product.packageVariant?.priceDouble),
+              Number(product.packageVariant?.priceTriple),
+              Number(product.packageVariant?.priceQuad)
+            )
+          )
+        : 'Rp0',
+      rating:
+        product.meccaHotel || product.medinaHotel
+          ? getMaximumNonZeroPrice(
+              Number(product.meccaHotel.rating),
+              Number(product.medinaHotel.rating)
+            )
+          : 'Belum ada rating',
+      slugOrganization: product.organizationInstance?.slug || '',
+      slugPackage: product.slug || '',
+      isLastCall: product.packageVariant?.isLastCall,
+      isPlus: product.isPlus,
+      codeCountry: product?.additionalCountry ?? undefined,
+      departureDate: product?.packageVariant?.departureDate,
+      arrivalDate: product?.packageVariant?.arrivalDate,
+      releasedAt: product?.packageVariant?.releasedAt,
+    })) || []
+  )
 }
