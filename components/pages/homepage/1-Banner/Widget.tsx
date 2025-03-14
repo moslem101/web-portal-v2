@@ -4,7 +4,7 @@ import { LockIcon } from '@/components/icons/lock'
 import { MaximizeIcon } from '@/components/icons/maximize'
 import { SearchIcon } from '@/components/icons/search'
 import SearchFilters from '@/components/pages/homepage/1-Banner/SearchFilter'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+import { useFilterProduct } from '@/contexts/filter-product-context'
 import { dissolve, springTransition } from '@/lib/animation-setup'
 import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -40,7 +40,7 @@ const NotchedContainer: React.FC<{
 }
 
 const SearchWidget: React.FC<SearchWidgetProps> = ({ className }) => {
-  const { setIsDisabled } = useSearchFilter()
+  const { setIsDisabled } = useFilterProduct()
   // State for active tab
   const [activeTab, setActiveTab] = useState<TripType>('umrah')
   // Ref for the tab container to calculate positions

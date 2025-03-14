@@ -6,12 +6,12 @@ import AirlineFilter from '@/components/pages/homepage/1-Banner/SearchFilter/Air
 import AirportFilter from '@/components/pages/homepage/1-Banner/SearchFilter/AirportFilter'
 import DateFilter from '@/components/pages/homepage/1-Banner/SearchFilter/DateFilter'
 import { Button } from '@/components/ui/button'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+import { useFilterProduct } from '@/contexts/filter-product-context'
 import React from 'react'
 
 const SearchFilters: React.FC = () => {
   const { isDisabled, isLoading, handleSubmit, isLoadingSkeleton } =
-    useSearchFilter()
+    useFilterProduct()
 
   return (
     <div className="flex w-full items-center justify-between px-20 py-3 shadow-[0px_6px_24px_0px_rgba(0,0,0,0.15)]">

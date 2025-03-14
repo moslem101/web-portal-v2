@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { OtherProps } from '@/constant/types/GeneralProps'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+import { useFilterProduct } from '@/contexts/filter-product-context'
 import { capitalizeText } from '@/lib/utils'
 import React, { Fragment, useMemo } from 'react'
 import AirportList from './AirportList'
@@ -16,13 +16,15 @@ import { AirportFilterSkeleton } from './AirportSkeleton'
 
 const AirportFilter: React.FC<OtherProps> = ({ colorIcon, whatPage }) => {
   const {
-    departureAirport,
     setDepartureAirport,
-    arrivalAirport,
     setArrivalAirport,
     isDisabled,
     isLoadingSkeleton,
-  } = useSearchFilter()
+    filters,
+  } = useFilterProduct()
+
+  const departureAirport = filters.departureAirport
+  const arrivalAirport = filters.arrivalAirport
 
   // Function to display airport details
   const getDisplayText = useMemo(() => {

@@ -3,16 +3,28 @@
 
 import { SearchIcon } from '@/components/icons/search'
 import { Button } from '@/components/ui/button'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
-import React from 'react'
+import { useFilterProduct } from '@/contexts/filter-product-context'
+import React, { useEffect } from 'react'
 import AirlineFilter from './AirlineFilter'
 import AirportFilter from './AirportFilter'
 import DateFilter from './DateFilter'
 import RatingFilter from './RatingFilter'
 
 const SearchFilters: React.FC = () => {
-  const { isDisabled, isLoading, handleSubmit } = useSearchFilter()
+  const { setFilters, isDisabled, isLoading, handleSubmit } = useFilterProduct()
 
+  // Reset filter when first load and when back to homepage
+  useEffect(() => {
+    setFilters({
+      hotelStars: 0,
+      dateRange: undefined,
+      selectedAirport: null,
+      departureAirport: null,
+      arrivalAirport: null,
+      airline: null,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div className="flex w-full items-center justify-between">
       {/* Hotel Stars Filter */}

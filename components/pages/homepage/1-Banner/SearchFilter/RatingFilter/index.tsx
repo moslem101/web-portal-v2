@@ -6,13 +6,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+import { useFilterProduct } from '@/contexts/filter-product-context'
 import { dissolve } from '@/lib/animation-setup'
 import React, { useCallback, useMemo } from 'react'
 
 const HotelStarFilter: React.FC = () => {
-  const { hotelStars, setHotelStars, isDisabled } = useSearchFilter()
+  const { filters, setHotelStars, isDisabled } = useFilterProduct()
 
+  const hotelStars = filters.hotelStars
   // Memoized handlers
   const handleHotelStar3 = useCallback(() => setHotelStars(3), [setHotelStars])
   const handleHotelStar4 = useCallback(() => setHotelStars(4), [setHotelStars])

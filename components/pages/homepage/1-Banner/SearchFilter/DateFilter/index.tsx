@@ -8,16 +8,17 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { OtherProps } from '@/constant/types/GeneralProps'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+import { useFilterProduct } from '@/contexts/filter-product-context'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import React, { useMemo } from 'react'
 import { DateSkeleton } from './DateSkeleton'
 
 const DateFilter: React.FC<OtherProps> = ({ colorIcon, whatPage }) => {
-  const { dateRange, setDateRange, isDisabled, isLoadingSkeleton } =
-    useSearchFilter()
+  const { filters, setDateRange, isDisabled, isLoadingSkeleton } =
+    useFilterProduct()
 
+  const dateRange = filters.dateRange
   // Memoized date display text
   const dateDisplayText = useMemo(() => {
     if (dateRange?.from) {

@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { SearchFilterProvider } from './pages/homepage/search-filter-context'
+import { FilterProductProvider } from './filter-product-context'
 // Import other providers as needed, for example:
 // import { AuthProvider } from './AuthContext'
 // import { ThemeProvider } from './ThemeContext'
@@ -16,13 +16,13 @@ interface ProvidersProps {
 export function ContextProviders({ children }: ProvidersProps) {
   return (
     // Nest providers inside each other, with the most global one at the top
-    <SearchFilterProvider>
+    <FilterProductProvider>
       {/* Add other providers here as needed */}
       {/* <AuthProvider> */}
       {/* <ThemeProvider> */}
       {children}
       {/* </ThemeProvider> */}
       {/* </AuthProvider> */}
-    </SearchFilterProvider>
+    </FilterProductProvider>
   )
 }

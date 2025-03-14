@@ -7,11 +7,11 @@
 //   AccordionTrigger,
 // } from '@/components/ui/accordion'
 // import { Input } from '@/components/ui/input'
-// import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+// import { useFilterProduct } from '@/contexts/pages/homepage/search-filter-context'
 // import React from 'react'
 
 // const FilterLeftbar: React.FC = () => {
-//   const { isDisabled, isLoading, handleSubmit } = useSearchFilter()
+//   const { isDisabled, isLoading, handleSubmit } = useFilterProduct()
 
 //   return (
 //     <div className="flex w-full flex-col gap-6">

@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { OtherProps } from '@/constant/types/GeneralProps'
-import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
+import { useFilterProduct } from '@/contexts/filter-product-context'
 import { capitalizeText } from '@/lib/utils'
 import React, { Fragment } from 'react'
 import AirlineList from './AirlineList'
@@ -17,9 +17,9 @@ import { AirlineFilterSkeleton } from './AirlineSkeleton'
 const IS_NOT_TRANSIT = ['GA', 'SV', 'JT']
 
 const AirlineFilter: React.FC<OtherProps> = ({ colorIcon, whatPage }) => {
-  const { airline, setAirline, isDisabled, isLoadingSkeleton } =
-    useSearchFilter()
-
+  const { filters, setAirline, isDisabled, isLoadingSkeleton } =
+    useFilterProduct()
+  const airline = filters.airline
   if (whatPage === 'filter_search' && isLoadingSkeleton) {
     return <AirlineFilterSkeleton />
   }

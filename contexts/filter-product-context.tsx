@@ -2,6 +2,7 @@
 
 import { Airline } from '@/constant/types/AirlineProps'
 import { Airport } from '@/constant/types/AirportProps'
+import { FilterState } from '@/constant/types/FilterProps'
 import { getAirline, getAirports } from '@/services/general-service'
 import React, {
   createContext,
@@ -13,29 +14,28 @@ import React, {
 import { DateRange } from 'react-day-picker'
 import { toast } from 'sonner'
 
-interface SearchFilterContextType {
-  // Filter states
+// Initial filter state
+const initialFilterState: FilterState = {
+  hotelStars: 0,
+  dateRange: undefined,
+  selectedAirport: null,
+  departureAirport: null,
+  arrivalAirport: null,
+  airline: null,
+  // Add new attributes if there's a new state for filter
+}
 
-  // Rating state
-  hotelStars: number
+interface FilterProductContextType {
+  // Combined filter state
+  filters: FilterState
+  setFilters: (filter: FilterState) => void
+
+  // Filter state setters
   setHotelStars: (stars: number) => void
-
-  // Date states
-  dateRange: DateRange | undefined
   setDateRange: (range: DateRange | undefined) => void
-
-  // Airport states - original single airport
-  selectedAirport: Airport | null
   setSelectedAirport: (airport: Airport) => void
-
-  // New airport states for departure and arrival
-  departureAirport: Airport | null
   setDepartureAirport: (airport: Airport) => void
-  arrivalAirport: Airport | null
   setArrivalAirport: (airport: Airport) => void
-
-  // Airline state
-  airline: Airline | null
   setAirline: (airline: Airline) => void
 
   // Form submission
@@ -47,27 +47,16 @@ interface SearchFilterContextType {
   searchResults: any | null
 }
 
-const SearchFilterContext = createContext<SearchFilterContextType | undefined>(
-  undefined
-)
+const FilterProductContext = createContext<
+  FilterProductContextType | undefined
+>(undefined)
 
-export const SearchFilterProvider: React.FC<{
+export const FilterProductProvider: React.FC<{
   children: React.ReactNode
   initialDisabled?: boolean
 }> = ({ children, initialDisabled = false }) => {
-  // Filter states
-  const [hotelStars, setHotelStars] = useState<number>(0)
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
-
-  // Original airport state - keep for backward compatibility
-  const [selectedAirport, setSelectedAirport] = useState<Airport | null>(null)
-
-  // New separate states for departure and arrival airports
-  const [departureAirport, setDepartureAirport] = useState<Airport | null>(null)
-  const [arrivalAirport, setArrivalAirport] = useState<Airport | null>(null)
-
-  // Airline state
-  const [airline, setAirline] = useState<Airline | null>(null)
+  // Combined filter state
+  const [filters, setFilters] = useState<FilterState>(initialFilterState)
 
   // Form states
   const [isDisabled, setIsDisabled] = useState<boolean>(initialDisabled)
@@ -75,15 +64,43 @@ export const SearchFilterProvider: React.FC<{
   const [isLoadingSkeleton, setIsLoadingSkeleton] = useState<boolean>(true)
   const [searchResults, setSearchResults] = useState<any | null>(null)
 
+  // Filter state setters
+  const setHotelStars = useCallback((stars: number) => {
+    setFilters((prev) => ({ ...prev, hotelStars: stars }))
+  }, [])
+
+  const setDateRange = useCallback((range: DateRange | undefined) => {
+    setFilters((prev) => ({ ...prev, dateRange: range }))
+  }, [])
+
+  const setSelectedAirport = useCallback((airport: Airport) => {
+    setFilters((prev) => ({ ...prev, selectedAirport: airport }))
+  }, [])
+
+  const setDepartureAirport = useCallback((airport: Airport) => {
+    setFilters((prev) => ({ ...prev, departureAirport: airport }))
+  }, [])
+
+  const setArrivalAirport = useCallback((airport: Airport) => {
+    setFilters((prev) => ({ ...prev, arrivalAirport: airport }))
+  }, [])
+
+  const setAirline = useCallback((airline: Airline) => {
+    setFilters((prev) => ({ ...prev, airline: airline }))
+  }, [])
+
   // Set default value states filter from search params
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search)
+      const newFilters = { ...initialFilterState }
+      let hasUpdates = false
 
       // Set hotel stars if exists
       const starsParam = params.get('hotelStars')
       if (starsParam) {
-        setHotelStars(parseInt(starsParam, 10))
+        newFilters.hotelStars = parseInt(starsParam, 10)
+        hasUpdates = true
       }
 
       // Set date range if exists
@@ -99,51 +116,72 @@ export const SearchFilterProvider: React.FC<{
         if (returnDateParam) {
           range.to = new Date(returnDateParam)
         }
-        setDateRange(range)
+        newFilters.dateRange = range
+        hasUpdates = true
       }
 
-      // Set airport jika ada di params
+      // Apply non-async updates right away
+      if (hasUpdates) {
+        setFilters((prev) => ({ ...prev, ...newFilters }))
+      }
+
+      // Async updates for airports and airline
+      const promises = []
+
+      // Set airport if exists in params
       const airportParam = params.get('airport')
       if (airportParam) {
-        fetchAirportByCode(airportParam).then((airport) => {
-          if (airport) {
-            setSelectedAirport(airport)
-          }
-        })
+        promises.push(
+          fetchAirportByCode(airportParam).then((airport) => {
+            if (airport) {
+              setFilters((prev) => ({ ...prev, selectedAirport: airport }))
+            }
+          })
+        )
       }
 
       // Set departure airport
       const departureAirportParam = params.get('departureAirport')
       if (departureAirportParam) {
-        fetchAirportByCode(departureAirportParam).then((airport) => {
-          if (airport) {
-            setDepartureAirport(airport)
-          }
-        })
+        promises.push(
+          fetchAirportByCode(departureAirportParam).then((airport) => {
+            if (airport) {
+              setFilters((prev) => ({ ...prev, departureAirport: airport }))
+            }
+          })
+        )
       }
 
       // Set arrival airport
       const arrivalAirportParam = params.get('arrivalAirport')
       if (arrivalAirportParam) {
-        fetchAirportByCode(arrivalAirportParam).then((airport) => {
-          if (airport) {
-            setArrivalAirport(airport)
-          }
-        })
+        promises.push(
+          fetchAirportByCode(arrivalAirportParam).then((airport) => {
+            if (airport) {
+              setFilters((prev) => ({ ...prev, arrivalAirport: airport }))
+            }
+          })
+        )
       }
 
       // Set airline
       const airlineParam = params.get('maskapai')
       if (airlineParam) {
-        fetchAirlineByName(airlineParam).then((airline) => {
-          if (airline) {
-            setAirline(airline)
-          }
-        })
+        promises.push(
+          fetchAirlineByName(airlineParam).then((airline) => {
+            if (airline) {
+              setFilters((prev) => ({ ...prev, airline: airline }))
+            }
+          })
+        )
       }
-      setTimeout(() => {
-        setIsLoadingSkeleton(false)
-      }, 1000)
+
+      // Wait for all promises to resolve or turn off loading after timeout
+      Promise.all(promises).finally(() => {
+        setTimeout(() => {
+          setIsLoadingSkeleton(false)
+        }, 1000)
+      })
     }
   }, [])
 
@@ -154,7 +192,7 @@ export const SearchFilterProvider: React.FC<{
         size: 1,
         search: code,
       })
-      return data.results[0]
+      return data.results[0] || null
     } catch (error) {
       console.error('Error fetching airport:', error)
       return null
@@ -162,15 +200,13 @@ export const SearchFilterProvider: React.FC<{
   }
 
   const fetchAirlineByName = async (name: string): Promise<Airline | null> => {
-    // Implementasi sebenarnya untuk mengambil data airline berdasarkan nama
-    // Contoh placeholder:
     try {
       const data = await getAirline({
         page: 1,
         size: 1,
         search: name,
       })
-      return data.results[0]
+      return data.results[0] || null
     } catch (error) {
       console.error('Error fetching airline:', error)
       return null
@@ -180,6 +216,15 @@ export const SearchFilterProvider: React.FC<{
   // Submit handler
   const handleSubmit = useCallback(() => {
     try {
+      const {
+        hotelStars,
+        dateRange,
+        selectedAirport,
+        departureAirport,
+        arrivalAirport,
+        airline,
+      } = filters
+
       // Collect all filter values
       const formData = {
         hotelStars: hotelStars ?? undefined,
@@ -231,34 +276,19 @@ export const SearchFilterProvider: React.FC<{
       )
       setIsLoading(false)
     }
-  }, [
-    hotelStars,
-    dateRange,
-    selectedAirport,
-    departureAirport,
-    arrivalAirport,
-    airline,
-  ])
+  }, [filters])
 
   const value = {
-    // Filter states
-    hotelStars,
+    // Combined filter state
+    filters,
+    setFilters,
+
+    // Filter state setters
     setHotelStars,
-    dateRange,
     setDateRange,
-
-    // Legacy airport state
-    selectedAirport,
     setSelectedAirport,
-
-    // New departure and arrival airport states
-    departureAirport,
     setDepartureAirport,
-    arrivalAirport,
     setArrivalAirport,
-
-    // Airline state
-    airline,
     setAirline,
 
     // Form states
@@ -271,18 +301,18 @@ export const SearchFilterProvider: React.FC<{
   }
 
   return (
-    <SearchFilterContext.Provider value={value}>
+    <FilterProductContext.Provider value={value}>
       {children}
-    </SearchFilterContext.Provider>
+    </FilterProductContext.Provider>
   )
 }
 
 // Custom hook to use the context
-export const useSearchFilter = () => {
-  const context = useContext(SearchFilterContext)
+export const useFilterProduct = () => {
+  const context = useContext(FilterProductContext)
   if (context === undefined) {
     throw new Error(
-      'useSearchFilter must be used within a SearchFilterProvider'
+      'useFilterProduct must be used within a FilterProductProvider'
     )
   }
   return context
