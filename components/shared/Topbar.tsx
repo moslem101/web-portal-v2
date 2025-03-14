@@ -78,7 +78,7 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
   const navLinks = useMemo(
     () => [
       { title: 'Home', href: '/' },
-      { title: 'Mitra', href: '/mitra' },
+      { title: 'Mitra', href: '/list/travel' },
       { title: 'About Us', href: '/about-us' },
     ],
     []
@@ -253,14 +253,14 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
                 </PopoverTrigger>
                 <PopoverContent align="end" sideOffset={8}>
                   <Link
-                    href="/partner/register"
+                    href="/wukala"
                     className={`text-m-regular flex w-full cursor-pointer px-3 py-2.5 hover:bg-neutral-100 ${dissolve}`}
                   >
                     Untuk Wukala
                   </Link>
                   <div className="mx-1 h-px bg-neutral-100" />
                   <Link
-                    href="/partner/login"
+                    href="/travel"
                     className={`text-m-regular flex w-full cursor-pointer px-3 py-2.5 hover:bg-neutral-100 ${dissolve}`}
                   >
                     Untuk Mitra Travel

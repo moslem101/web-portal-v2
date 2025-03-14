@@ -328,18 +328,6 @@
   resolved "https://registry.yarnpkg.com/@nolyfill/is-core-module/-/is-core-module-1.0.39.tgz#3dc35ba0f1e66b403c00b39344f870298ebb1c8e"
   integrity sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==
 
-"@odx/assets-utils@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@odx/assets-utils/-/assets-utils-1.0.0.tgz#02abc250fa7d62ee3f91f806ab0c157a72027758"
-  integrity sha512-tFevWZRUPLy/0ZYohizc5BQY4pZglMTQlmxVKpNicMNSJdDJp2O5JyDcQpfdG8SRTA9TAbzUj42TIklsvWEHaQ==
-
-"@odx/flag-icons@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@odx/flag-icons/-/flag-icons-1.0.0.tgz#8d69b7c0379809cba0a3d8f567c26998b37e9b73"
-  integrity sha512-0IcuNxrTUx488+bCCNYGfY1+5HtQY1JMdIsj+CcC1nqcFq6JXoxcJ1HMKRo/NBS4SgHqThCRPiVwmjsRVfjx5g==
-  dependencies:
-    "@odx/assets-utils" "^1.0.0"
-
 "@radix-ui/number@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.1.0.tgz#1e95610461a09cdf8bb05c152e76ca1278d5da46"
