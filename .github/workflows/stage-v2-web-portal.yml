@@ -16,7 +16,7 @@ permissions:
 
 env:
   SERVICE_NAME: staging-web-portal-v2
-  SERVICE_PORT: 8111
+  SERVICE_PORT: 8110
   MAIN_SERVICE_PATH: /opt/staging-moslem101.com/
   SERVICE_PATH: web-portal-v2
 
