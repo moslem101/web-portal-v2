@@ -2,10 +2,10 @@ import { SearchIcon } from '@/components/icons/search'
 import { TransitIcon } from '@/components/icons/transit'
 import InfiniteScroll from '@/components/ui/infinite-scroll'
 import { Input } from '@/components/ui/input'
+import { Airline } from '@/constant/types/AirlineProps'
 import { useAirlineSearch } from '@/hooks/pages/homepage'
 import { dissolve } from '@/lib/animation-setup'
 import { isEmpty } from '@/lib/utils'
-import { Airline } from '@/types/AirlineProps'
 import Image from 'next/image'
 import React from 'react'
 import { AirlineSkeletonList } from './AirlineSkeleton'
@@ -13,13 +13,13 @@ import { AirlineSkeletonList } from './AirlineSkeleton'
 interface AirlineSearchProps {
   onSelectAirline: (airline: Airline) => void
   selectedAirline?: Airline | null
-  isTransit: string[]
+  isNotTransit: string[]
 }
 
 const AirlineList: React.FC<AirlineSearchProps> = ({
   onSelectAirline,
   selectedAirline,
-  isTransit,
+  isNotTransit,
 }) => {
   // Use the custom hook for  airports
   const {
@@ -101,13 +101,15 @@ const AirlineList: React.FC<AirlineSearchProps> = ({
                   <p className="text-m-regular text-neutral-900">
                     {airline.name} ({airline.code})
                   </p>
-                  {isTransit.includes(airline.code) && (
+                  {isNotTransit.includes(airline.code) && (
                     <p className="text-s-regular text-neutral-500">
                       1x transit
                     </p>
                   )}
                 </div>
-                {isTransit.includes(airline.code) && <TransitIcon size={20} />}
+                {isNotTransit.includes(airline.code) && (
+                  <TransitIcon size={20} />
+                )}
               </div>
             ))}
           </InfiniteScroll>

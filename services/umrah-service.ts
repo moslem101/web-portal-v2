@@ -1,7 +1,7 @@
 import { api } from '@/services/common/http'
-import { Banner } from '@/types/BannerProps'
-import { GenericResponse, GetListQuery } from '@/types/GeneralProps'
-import { Package } from '@/types/PackageProps'
+import { Banner } from '@/constant/types/BannerProps'
+import { GenericResponse, GetListQuery } from '@/constant/types/GeneralProps'
+import { Package } from '@/constant/types/PackageProps'
 import qs from 'query-string'
 
 export async function getBanner(

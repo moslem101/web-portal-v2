@@ -6,13 +6,13 @@ import { memo } from 'react'
 interface HeaderPackageProps {
   title: string
   desc: string
-  link: string
+  type: string
 }
 
 export const HeaderPackageList = memo(function HeaderPackageList({
   title,
   desc,
-  link,
+  type,
 }: HeaderPackageProps) {
   return (
     <div className="mb flex justify-between">
@@ -20,7 +20,7 @@ export const HeaderPackageList = memo(function HeaderPackageList({
         <p className="heading-2-bold">{title}</p>
         <p className="text-m-regular">{desc}</p>
       </div>
-      <Link href={link}>
+      <Link href={`/packages?section=${type}`} id={`link-see-all-${type}`}>
         <Button className="items-center gap-1 px-3 py-2" size="xs">
           <p className="text-m-regular text-neutral-900">Lihat Paket Lainnya</p>
           <ArrowIcon size={24} className="-rotate-45" />

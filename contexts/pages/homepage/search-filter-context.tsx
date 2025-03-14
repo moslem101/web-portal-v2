@@ -1,9 +1,17 @@
 'use client'
 
-import { Airline } from '@/types/AirlineProps'
-import { Airport } from '@/types/AirportProps'
-import React, { createContext, useCallback, useContext, useState } from 'react'
+import { Airline } from '@/constant/types/AirlineProps'
+import { Airport } from '@/constant/types/AirportProps'
+import { getAirline, getAirports } from '@/services/general-service'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { DateRange } from 'react-day-picker'
+import { toast } from 'sonner'
 
 interface SearchFilterContextType {
   // Filter states
@@ -34,6 +42,7 @@ interface SearchFilterContextType {
   isDisabled: boolean
   setIsDisabled: (disabled: boolean) => void
   isLoading: boolean
+  isLoadingSkeleton: boolean
   handleSubmit: () => void
   searchResults: any | null
 }
@@ -63,30 +72,165 @@ export const SearchFilterProvider: React.FC<{
   // Form states
   const [isDisabled, setIsDisabled] = useState<boolean>(initialDisabled)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoadingSkeleton, setIsLoadingSkeleton] = useState<boolean>(true)
   const [searchResults, setSearchResults] = useState<any | null>(null)
+
+  // Set default value states filter from search params
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+
+      // Set hotel stars if exists
+      const starsParam = params.get('hotelStars')
+      if (starsParam) {
+        setHotelStars(parseInt(starsParam, 10))
+      }
+
+      // Set date range if exists
+      const departureDateParam = params.get('departureDate')
+      const returnDateParam = params.get('returnDate')
+      if (departureDateParam || returnDateParam) {
+        const range: DateRange = {
+          from: undefined,
+        }
+        if (departureDateParam) {
+          range.from = new Date(departureDateParam)
+        }
+        if (returnDateParam) {
+          range.to = new Date(returnDateParam)
+        }
+        setDateRange(range)
+      }
+
+      // Set airport jika ada di params
+      const airportParam = params.get('airport')
+      if (airportParam) {
+        fetchAirportByCode(airportParam).then((airport) => {
+          if (airport) {
+            setSelectedAirport(airport)
+          }
+        })
+      }
+
+      // Set departure airport
+      const departureAirportParam = params.get('departureAirport')
+      if (departureAirportParam) {
+        fetchAirportByCode(departureAirportParam).then((airport) => {
+          if (airport) {
+            setDepartureAirport(airport)
+          }
+        })
+      }
+
+      // Set arrival airport
+      const arrivalAirportParam = params.get('arrivalAirport')
+      if (arrivalAirportParam) {
+        fetchAirportByCode(arrivalAirportParam).then((airport) => {
+          if (airport) {
+            setArrivalAirport(airport)
+          }
+        })
+      }
+
+      // Set airline
+      const airlineParam = params.get('maskapai')
+      if (airlineParam) {
+        fetchAirlineByName(airlineParam).then((airline) => {
+          if (airline) {
+            setAirline(airline)
+          }
+        })
+      }
+      setTimeout(() => {
+        setIsLoadingSkeleton(false)
+      }, 1000)
+    }
+  }, [])
+
+  const fetchAirportByCode = async (code: string): Promise<Airport | null> => {
+    try {
+      const data = await getAirports({
+        page: 1,
+        size: 1,
+        search: code,
+      })
+      return data.results[0]
+    } catch (error) {
+      console.error('Error fetching airport:', error)
+      return null
+    }
+  }
+
+  const fetchAirlineByName = async (name: string): Promise<Airline | null> => {
+    // Implementasi sebenarnya untuk mengambil data airline berdasarkan nama
+    // Contoh placeholder:
+    try {
+      const data = await getAirline({
+        page: 1,
+        size: 1,
+        search: name,
+      })
+      return data.results[0]
+    } catch (error) {
+      console.error('Error fetching airline:', error)
+      return null
+    }
+  }
 
   // Submit handler
   const handleSubmit = useCallback(() => {
-    // Collect all filter values
-    const formData = {
-      hotelStars,
-      departureDate: dateRange?.from ? dateRange.from.toISOString() : null,
-      returnDate: dateRange?.to ? dateRange.to.toISOString() : null,
-      airport: selectedAirport?.code,
-      departureAirport: departureAirport?.code,
-      arrivalAirport: arrivalAirport?.code,
-      airline,
-    }
+    try {
+      // Collect all filter values
+      const formData = {
+        hotelStars: hotelStars ?? undefined,
+        departureDate: dateRange?.from
+          ? dateRange.from.toISOString()
+          : undefined,
+        returnDate: dateRange?.to ? dateRange.to.toISOString() : undefined,
+        airport: selectedAirport?.code ?? undefined,
+        departureAirport: departureAirport?.code ?? undefined,
+        arrivalAirport: arrivalAirport?.code ?? undefined,
+        airline: airline?.name ?? undefined,
+      }
 
-    // Mock API call/form submission
-    setIsLoading(true)
+      // Set loading state
+      setIsLoading(true)
 
-    // Simulate API call with setTimeout
-    setTimeout(() => {
-      console.log('Submitting form data:', formData)
-      setSearchResults(formData)
+      const currentUrlParams = new URLSearchParams(window.location.search)
+
+      if (formData.hotelStars)
+        currentUrlParams.set('hotelStars', formData.hotelStars.toString())
+      if (formData.departureDate)
+        currentUrlParams.set('departureDate', formData.departureDate)
+      if (formData.returnDate)
+        currentUrlParams.set('returnDate', formData.returnDate)
+      if (formData.airport) currentUrlParams.set('airport', formData.airport)
+      if (formData.departureAirport)
+        currentUrlParams.set('departureAirport', formData.departureAirport)
+      if (formData.arrivalAirport)
+        currentUrlParams.set('arrivalAirport', formData.arrivalAirport)
+      if (formData.airline) currentUrlParams.set('maskapai', formData.airline)
+
+      // Simulate API call with setTimeout
+      setTimeout(() => {
+        // Update search results
+        setSearchResults(formData)
+
+        // Reset loading
+        setIsLoading(false)
+
+        // Navigate to search results page
+        window.location.href = `/packages?${currentUrlParams.toString()}`
+      }, 1000)
+    } catch (err) {
+      // Handle errors
+      toast.error(
+        err
+          ? (err as string)
+          : 'Terjadi kesalahan pada server. Mohon ulangi beberapa saat lagi.'
+      )
       setIsLoading(false)
-    }, 1000)
+    }
   }, [
     hotelStars,
     dateRange,
@@ -121,6 +265,7 @@ export const SearchFilterProvider: React.FC<{
     isDisabled,
     setIsDisabled,
     isLoading,
+    isLoadingSkeleton,
     handleSubmit,
     searchResults,
   }

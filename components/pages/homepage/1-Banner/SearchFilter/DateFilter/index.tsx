@@ -7,13 +7,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { OtherProps } from '@/constant/types/GeneralProps'
 import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import React, { useMemo } from 'react'
+import { DateSkeleton } from './DateSkeleton'
 
-const DateFilter: React.FC = () => {
-  const { dateRange, setDateRange, isDisabled } = useSearchFilter()
+const DateFilter: React.FC<OtherProps> = ({ colorIcon, whatPage }) => {
+  const { dateRange, setDateRange, isDisabled, isLoadingSkeleton } =
+    useSearchFilter()
 
   // Memoized date display text
   const dateDisplayText = useMemo(() => {
@@ -31,6 +34,10 @@ const DateFilter: React.FC = () => {
     return null
   }, [dateRange])
 
+  if (whatPage === 'filter_search' && isLoadingSkeleton) {
+    return <DateSkeleton />
+  }
+
   return (
     <Popover>
       <PopoverTrigger className="focus:outline-none" asChild>
@@ -38,7 +45,7 @@ const DateFilter: React.FC = () => {
           className={`flex w-full items-center gap-2 ${isDisabled ? 'opacity-50' : 'cursor-pointer'}`}
           onClick={isDisabled ? (e) => e.preventDefault() : undefined}
         >
-          <DateIcon size={32} />
+          <DateIcon size={32} color={colorIcon} />
           <div className="flex flex-col">
             {dateDisplayText ? (
               <p className="text-s-regular text-neutral-900">

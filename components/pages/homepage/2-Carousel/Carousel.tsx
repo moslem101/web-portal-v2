@@ -8,9 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import { Banner } from '@/constant/types/BannerProps'
+import { GenericResponse } from '@/constant/types/GeneralProps'
 import { dissolve } from '@/lib/animation-setup'
-import { Banner } from '@/types/BannerProps'
-import { GenericResponse } from '@/types/GeneralProps'
+import { isEmpty } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -47,10 +48,24 @@ export function CarouselBanner({
           {dataBanner?.results.map((banner, index) => (
             <CarouselItem
               key={index}
-              className="cursor-pointer overflow-hidden pl-5 md:basis-1/2 lg:basis-1/3"
+              className={`overflow-hidden pl-5 md:basis-1/2 lg:basis-1/3`}
             >
-              <Link href={banner.url ?? ''} key={`image-banner-${index}`}>
-                <div className="relative">
+              <Link
+                href={banner.url ?? ''}
+                onClick={(e) => {
+                  if (!isEmpty(banner.url)) {
+                    window.location.href = banner.url ?? ''
+                  } else {
+                    e.preventDefault()
+                    e.stopPropagation()
+                  }
+                }}
+                key={`image-banner-${index}`}
+                id={`image-banner-${banner.title}`}
+              >
+                <div
+                  className={`relative ${!isEmpty(banner.url) ? 'cursor-pointer' : 'cursor-auto'}`}
+                >
                   {/* Show skeleton until image is loaded */}
                   {!imagesLoaded[index] && <BannerSkeleton />}
 

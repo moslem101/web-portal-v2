@@ -1,10 +1,10 @@
 import { SearchIcon } from '@/components/icons/search'
 import InfiniteScroll from '@/components/ui/infinite-scroll'
 import { Input } from '@/components/ui/input'
+import { Airport } from '@/constant/types/AirportProps'
 import { useAirportSearch } from '@/hooks/pages/homepage'
 import { dissolve } from '@/lib/animation-setup'
 import { capitalizeText } from '@/lib/utils'
-import { Airport } from '@/types/AirportProps'
 import React from 'react'
 import { AirportSkeletonList } from './AirportSkeleton'
 
@@ -119,7 +119,7 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
                 next={loadMoreDepartureAirports}
                 threshold={0.8}
               >
-                {departureAirports.map((airport: any) => (
+                {departureAirports.map((airport: Airport) => (
                   <div
                     key={`departure-airport-${airport.id}`}
                     className={`flex cursor-pointer items-center border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${
@@ -188,7 +188,7 @@ const AirportSearch: React.FC<AirportSearchProps> = ({
                 next={loadMoreArrivalAirports}
                 threshold={0.8}
               >
-                {arrivalAirports.map((airport: any) => (
+                {arrivalAirports.map((airport: Airport) => (
                   <div
                     key={`arrival-airport-${airport.id}`}
                     className={`flex cursor-pointer items-center border-b border-neutral-100 px-3 py-2.5 hover:bg-neutral-100 ${dissolve} ${

@@ -89,7 +89,7 @@ export default async function Home() {
 
   return (
     <Fragment>
-      <Topbar />
+      <Topbar type="homepage" />
       <Banner />
       <main className="container mx-auto">
         <Suspense fallback={<BannerCarouselSkeleton />}>
