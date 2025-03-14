@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner'
 import { GTM_ID } from '@/constant/env'
 import { ContextProviders } from '@/contexts/providers'
 import { GoogleTagManager } from '@next/third-parties/google'
@@ -17,7 +18,10 @@ export default function RootLayout({
     <html lang="en" translate="no" suppressHydrationWarning>
       <GoogleTagManager gtmId={GTM_ID as string} />
       <ContextProviders>
-        <body>{children}</body>
+        <body>
+          {children}
+          <Toaster />
+        </body>
       </ContextProviders>
     </html>
   )

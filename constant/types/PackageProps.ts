@@ -1,6 +1,6 @@
-import { Hotel } from '@/types/HotelProps'
-import { AdditionalCountry } from '@/types/LocationProps'
-import { OrganizationInstance, TravelRoute } from '@/types/TravelProps'
+import { Hotel } from '@/constant/types/HotelProps'
+import { AdditionalCountry } from '@/constant/types/LocationProps'
+import { OrganizationInstance, TravelRoute } from '@/constant/types/TravelProps'
 
 export interface PackageVariant {
   id: number

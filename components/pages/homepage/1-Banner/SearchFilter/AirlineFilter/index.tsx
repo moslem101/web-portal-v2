@@ -2,20 +2,27 @@
 'use client'
 
 import { AirlineIcon } from '@/components/icons/airline'
-import AirlineList from '@/components/pages/homepage/1-Banner/SearchFilter/AirlineFilter/AirlineList'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { OtherProps } from '@/constant/types/GeneralProps'
 import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
 import { capitalizeText } from '@/lib/utils'
 import React, { Fragment } from 'react'
+import AirlineList from './AirlineList'
+import { AirlineFilterSkeleton } from './AirlineSkeleton'
 
-const IS_TRANSIT = ['QR', 'TK', 'MH', 'EY', 'EK', '6E', 'SQ', 'MS']
+const IS_NOT_TRANSIT = ['GA', 'SV', 'JT']
 
-const AirlineFilter: React.FC = () => {
-  const { airline, setAirline, isDisabled } = useSearchFilter()
+const AirlineFilter: React.FC<OtherProps> = ({ colorIcon, whatPage }) => {
+  const { airline, setAirline, isDisabled, isLoadingSkeleton } =
+    useSearchFilter()
+
+  if (whatPage === 'filter_search' && isLoadingSkeleton) {
+    return <AirlineFilterSkeleton />
+  }
 
   return (
     <Popover>
@@ -24,14 +31,14 @@ const AirlineFilter: React.FC = () => {
           className={`flex w-full cursor-pointer items-center gap-2 ${isDisabled ? 'opacity-50' : 'cursor-pointer'}`}
           onClick={isDisabled ? (e) => e.preventDefault() : undefined}
         >
-          <AirlineIcon size={32} />
+          <AirlineIcon size={32} color={colorIcon} />
           <div className="flex flex-1 flex-col">
             {airline ? (
               <Fragment>
                 <p className="text-s-regular text-neutral-900">
                   {capitalizeText(airline.name)}
                 </p>
-                {IS_TRANSIT.includes(airline.code) && (
+                {IS_NOT_TRANSIT.includes(airline.code) && (
                   <p className="text-s-regular text-neutral-500">
                     Memerlukan 1x transit
                   </p>
@@ -54,7 +61,7 @@ const AirlineFilter: React.FC = () => {
         <AirlineList
           selectedAirline={airline}
           onSelectAirline={setAirline}
-          isTransit={IS_TRANSIT}
+          isNotTransit={IS_NOT_TRANSIT}
         />
       </PopoverContent>
     </Popover>

@@ -1,23 +1,27 @@
 'use client'
 
 import { AirportIcon } from '@/components/icons/airport'
+import { ArrowIcon } from '@/components/icons/arrow'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { OtherProps } from '@/constant/types/GeneralProps'
 import { useSearchFilter } from '@/contexts/pages/homepage/search-filter-context'
 import { capitalizeText } from '@/lib/utils'
 import React, { Fragment, useMemo } from 'react'
 import AirportList from './AirportList'
+import { AirportFilterSkeleton } from './AirportSkeleton'
 
-const AirportFilter: React.FC = () => {
+const AirportFilter: React.FC<OtherProps> = ({ colorIcon, whatPage }) => {
   const {
     departureAirport,
     setDepartureAirport,
     arrivalAirport,
     setArrivalAirport,
     isDisabled,
+    isLoadingSkeleton,
   } = useSearchFilter()
 
   // Function to display airport details
@@ -26,7 +30,8 @@ const AirportFilter: React.FC = () => {
       return (
         <p className="text-s-regular text-neutral-900">
           {capitalizeText(departureAirport.cityName)} ({departureAirport.code})
-          - {capitalizeText(arrivalAirport.cityName)} ({arrivalAirport.code})
+          <ArrowIcon size={18} className="inline-flex" />{' '}
+          {capitalizeText(arrivalAirport.cityName)} ({arrivalAirport.code})
         </p>
       )
     } else if (departureAirport) {
@@ -45,6 +50,10 @@ const AirportFilter: React.FC = () => {
     }
   }, [arrivalAirport, departureAirport])
 
+  if (whatPage === 'filter_search' && isLoadingSkeleton) {
+    return <AirportFilterSkeleton />
+  }
+
   return (
     <Popover>
       <PopoverTrigger className="focus:outline-none" asChild>
@@ -52,7 +61,7 @@ const AirportFilter: React.FC = () => {
           className={`flex w-full items-center gap-2 ${isDisabled ? 'opacity-50' : 'cursor-pointer'}`}
           onClick={isDisabled ? (e) => e.preventDefault() : undefined}
         >
-          <AirportIcon size={32} />
+          <AirportIcon size={32} color={colorIcon} />
           <div className="flex flex-1 flex-col">{getDisplayText}</div>
         </div>
       </PopoverTrigger>

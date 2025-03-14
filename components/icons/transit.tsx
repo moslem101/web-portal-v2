@@ -1,4 +1,4 @@
-import { IconProps } from '@/types/IconProps'
+import { IconProps } from '@/constant/types/IconProps'
 import React from 'react'
 
 export const TransitIcon: React.FC<IconProps> = ({ size, ...props }) => {

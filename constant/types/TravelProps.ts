@@ -1,6 +1,6 @@
-import { Airline } from '@/types/AirlineProps'
-import { AirportReference } from '@/types/AirportProps'
-import { City, Country, Province } from '@/types/LocationProps'
+import { Airline } from '@/constant/types/AirlineProps'
+import { AirportReference } from '@/constant/types/AirportProps'
+import { City, Country, Province } from '@/constant/types/LocationProps'
 
 export interface Travel {
   id: number

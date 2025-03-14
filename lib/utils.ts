@@ -1,5 +1,5 @@
-import { GenericResponse } from '@/types/GeneralProps'
-import { CardData, Package } from '@/types/PackageProps'
+import { GenericResponse } from '@/constant/types/GeneralProps'
+import { CardData, Package } from '@/constant/types/PackageProps'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 

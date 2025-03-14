@@ -99,15 +99,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading ? true : disabled}
         {...props}
       >
-        {isLoading ? (
-          <Lottie
-            animationData={animationData}
-            className="flex h-5 w-5 items-center justify-center gap-[6px]"
-            loop={true}
-          />
-        ) : (
-          children
-        )}
+        <Lottie
+          animationData={animationData}
+          className={`${isLoading ? 'flex' : 'hidden'} mx-auto h-5 w-5 items-center justify-center gap-[6px]`}
+          loop={true}
+        />
+        <div
+          className={`${isLoading ? 'hidden' : 'inline-flex'} mx-auto items-center justify-center`}
+        >
+          {children}
+        </div>
       </button>
     )
   }

@@ -3,6 +3,7 @@ import { CalendarIcon } from '@/components/icons/date'
 import { InfoIcon } from '@/components/icons/info'
 import { StarIconPrimary } from '@/components/icons/star'
 import { StoreIcon } from '@/components/icons/store'
+import { CardData } from '@/constant/types/PackageProps'
 import {
   capitalizeText,
   cn,
@@ -12,7 +13,6 @@ import {
 } from '@/lib/utils'
 import NoImagePlaceholder from '@/public/images/no-image-placeholder.png'
 import Ribbon from '@/public/images/ribbon-promo.png'
-import { CardData } from '@/types/PackageProps'
 import { differenceInDays, format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import Image from 'next/image'
@@ -108,6 +108,7 @@ export const CardPackage = memo(function CardPackage({
     <Link
       href={`/umrah/${slugOrganization}/${slugPackage}`}
       className="relative"
+      id="card-package"
     >
       {/* Image */}
       {showDiscount && (

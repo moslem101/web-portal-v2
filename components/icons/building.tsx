@@ -1,5 +1,5 @@
+import { IconProps } from '@/constant/types/IconProps'
 import { cn } from '@/lib/utils'
-import { IconProps } from '@/types/IconProps'
 import React from 'react'
 
 export const BuildingIcon: React.FC<IconProps> = ({
@@ -15,11 +15,7 @@ export const BuildingIcon: React.FC<IconProps> = ({
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(
-        `${className && color && 'stroke-current'}`,
-        color,
-        className
-      )}
+      className={cn(`${color && 'stroke-current'}`, color, className)}
       {...props}
     >
       <path

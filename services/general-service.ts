@@ -1,8 +1,8 @@
 import { api } from '@/services/common/http'
-import { Airline, GetAirlinesParams } from '@/types/AirlineProps'
+import { Airline, GetAirlinesParams } from '@/constant/types/AirlineProps'
 
-import { Airport, GetAirportsParams } from '@/types/AirportProps'
-import { GenericResponse } from '@/types/GeneralProps'
+import { Airport, GetAirportsParams } from '@/constant/types/AirportProps'
+import { GenericResponse } from '@/constant/types/GeneralProps'
 
 export async function getAirports({
   page = 1,

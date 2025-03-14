@@ -7,8 +7,8 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { Separator } from '@/components/ui/separator'
-import { GenericResponse } from '@/types/GeneralProps'
-import { Travel } from '@/types/TravelProps'
+import { GenericResponse } from '@/constant/types/GeneralProps'
+import { Travel } from '@/constant/types/TravelProps'
 import Autoplay from 'embla-carousel-autoplay'
 import Image from 'next/image'
 import { useState } from 'react'

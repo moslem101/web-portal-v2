@@ -10,7 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-import { CardData } from '@/types/PackageProps'
+import { CardData } from '@/constant/types/PackageProps'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 interface PackageListEventProps {
@@ -116,7 +116,7 @@ export const PackageListEvent: React.FC<PackageListEventProps> = ({
       <HeaderPackageList
         title="Paket Promo"
         desc="Promo menarik Muslim101 untukmu"
-        link="#"
+        type="promo"
       />
       <Carousel
         opts={{
@@ -138,7 +138,7 @@ export const PackageListEvent: React.FC<PackageListEventProps> = ({
       <HeaderPackageList
         title="Umroh Reguler"
         desc="Umroh tanpa khawatir, tinggal berangkat dan ibadah dengan nyaman!"
-        link="#"
+        type="regular"
       />
       <Carousel
         opts={{
@@ -160,7 +160,7 @@ export const PackageListEvent: React.FC<PackageListEventProps> = ({
       <HeaderPackageList
         title="Umroh Plus"
         desc="Umroh istimewa plus jalan-jalan ke destinasi pilihan!"
-        link="#"
+        type="plus"
       />
       <Carousel
         opts={{

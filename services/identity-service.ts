@@ -1,7 +1,7 @@
 import { api } from '@/services/common/http'
-import { GenericResponse, GetListQuery } from '@/types/GeneralProps'
+import { GenericResponse, GetListQuery } from '@/constant/types/GeneralProps'
 import qs from 'query-string'
-import { Travel } from '@/types/TravelProps'
+import { Travel } from '@/constant/types/TravelProps'
 
 export async function getTravels(
   query: GetListQuery

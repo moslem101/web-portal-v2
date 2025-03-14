@@ -27,6 +27,7 @@ import React, {
 interface TopbarProps {
   className?: string
   token?: string
+  type: 'normal' | 'homepage'
 }
 
 // Animation variants defined outside component to prevent recreation on each render
@@ -69,7 +70,11 @@ const fixedTopbarVariants = {
   },
 }
 
-const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
+const Topbar: React.FC<TopbarProps> = ({
+  className = '',
+  token,
+  type = 'normal',
+}) => {
   const pathname = usePathname()
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [showFixedHeader, setShowFixedHeader] = useState(false)
@@ -181,6 +186,26 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
 
   // Extract topbar content to its own component to prevent unnecessary rerenders
   const TopbarContent = React.memo(() => {
+    const [searchQuery, setSearchQuery] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    const handleSearch = useCallback(
+      (e: any) => {
+        setLoading(true)
+        e.preventDefault()
+        const currentUrlParams = new URLSearchParams(window.location.search)
+        if (searchQuery) {
+          currentUrlParams.set('query', searchQuery)
+        } else if (searchQuery === '') {
+          currentUrlParams.delete('query')
+        }
+        setTimeout(() => {
+          setLoading(false)
+          window.location.href = `/packages?${currentUrlParams.toString()}`
+        }, 1000)
+      },
+      [searchQuery]
+    )
     return (
       <Fragment>
         {/* Logo */}
@@ -211,14 +236,28 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
               sticky="always"
               className="rounded-xl p-2.5 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
             >
-              <div className="text-m-regular flex items-center gap-2.5 p-0 hover:bg-transparent">
+              <form
+                onSubmit={handleSearch}
+                id="search-from-topbar"
+                className="text-m-regular flex items-center gap-2.5 p-0 hover:bg-transparent"
+              >
                 <Input
                   placeholder="Cari paket, travel, hotel atau airlines"
                   endIcon={<SearchIcon className="text-primary-900" />}
                   className="w-[310px]"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button size="sm">Cari</Button>
-              </div>
+                <Button
+                  type="submit"
+                  size="sm"
+                  className="max-h-[40px] px-[40px]"
+                  isLoading={loading}
+                  id="button-search-topbar"
+                >
+                  Cari
+                </Button>
+              </form>
             </PopoverContent>
           </Popover>
 
@@ -294,36 +333,50 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
 
   return (
     <Fragment>
-      {/* Main header (non-fixed) */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 50 }}
-        transition={springTransition}
-        className={cn(
-          'absolute left-1/2 z-10 flex h-[72px] w-[90%] -translate-x-1/2 items-center gap-[60px] rounded-[100px] bg-white py-7 pr-3 pl-6 backdrop-blur-[100px]',
-          className
-        )}
-      >
-        <TopbarContent />
-      </motion.header>
-
-      {/* Fixed header that appears on scroll */}
-      <AnimatePresence>
-        {showFixedHeader && (
+      {type === 'homepage' && (
+        <>
+          {/* Main header (non-fixed) */}
           <motion.header
-            variants={fixedTopbarVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            initial={{ y: -100 }}
+            animate={{ y: 50 }}
+            transition={springTransition}
             className={cn(
-              'fixed top-0 left-1/2 z-50 flex h-[72px] w-screen -translate-x-1/2 items-center gap-[60px] bg-white px-20 py-7 shadow-[0px_6px_24px_0px_rgba(0,0,0,0.15)]',
+              'absolute left-1/2 z-10 flex h-[72px] w-[90%] -translate-x-1/2 items-center gap-[60px] rounded-[100px] bg-white py-7 pr-3 pl-6 backdrop-blur-[100px]',
               className
             )}
           >
             <TopbarContent />
           </motion.header>
-        )}
-      </AnimatePresence>
+
+          {/* Fixed header that appears on scroll */}
+          <AnimatePresence>
+            {showFixedHeader && (
+              <motion.header
+                variants={fixedTopbarVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                className={cn(
+                  'fixed top-0 left-1/2 z-50 flex h-[72px] w-screen -translate-x-1/2 items-center gap-[60px] bg-white px-20 py-7 shadow-[0px_6px_24px_0px_rgba(0,0,0,0.15)]',
+                  className
+                )}
+              >
+                <TopbarContent />
+              </motion.header>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+      {type === 'normal' && (
+        <header
+          className={cn(
+            'z-50 flex h-[72px] w-screen items-center gap-[60px] border-b-1 border-neutral-300 bg-white px-20 py-7',
+            className
+          )}
+        >
+          <TopbarContent />
+        </header>
+      )}
     </Fragment>
   )
 }

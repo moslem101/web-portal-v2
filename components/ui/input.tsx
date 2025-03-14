@@ -11,6 +11,7 @@ export interface InputProps
   error?: string
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
+  align?: string
   model?: 'compact' | 'normal' | 'expended'
 }
 
@@ -25,6 +26,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       startIcon,
       endIcon,
       disabled,
+      align,
       model = 'compact',
       ...props
     },
@@ -83,6 +85,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             className={cn(
               'focus-within:border-info-500 focus:border-info-500 h-full w-full bg-transparent text-neutral-900 placeholder:text-neutral-300 focus:outline-none disabled:cursor-not-allowed',
+              align,
               textSizeClasses[model]
             )}
             disabled={disabled}

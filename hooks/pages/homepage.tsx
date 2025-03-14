@@ -1,6 +1,6 @@
+import { Airline } from '@/constant/types/AirlineProps'
+import { Airport } from '@/constant/types/AirportProps'
 import { getAirline, getAirports } from '@/services/general-service'
-import { Airline } from '@/types/AirlineProps'
-import { Airport } from '@/types/AirportProps'
 import { useCallback, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
@@ -67,7 +67,8 @@ export function useAirportSearch({
     }
 
     loadInitialData()
-  }, [searchQuery, fetchAirports])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery])
 
   // Load more airports
   const loadMoreAirports = useCallback(async () => {
@@ -84,7 +85,8 @@ export function useAirportSearch({
 
     setHasMore(airports.length + data.results.length < data.total)
     setLoading(false)
-  }, [fetchAirports, loading, page, searchQuery, airports.length])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page])
 
   // Debounced search handler
   const handleSearchChange = useDebouncedCallback(
@@ -153,7 +155,8 @@ export function useAirlineSearch({
     }
 
     loadInitialData()
-  }, [searchQuery, fetchAirlines])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Load more airlines
   const loadMoreAirlines = useCallback(async () => {
@@ -170,7 +173,8 @@ export function useAirlineSearch({
 
     setHasMore(airlines.length + data.results.length < data.total)
     setLoading(false)
-  }, [fetchAirlines, loading, page, searchQuery, airlines.length])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page])
 
   // Debounced search handler
   const handleSearchChange = useDebouncedCallback(
