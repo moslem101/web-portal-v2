@@ -78,7 +78,7 @@ const Topbar: React.FC<TopbarProps> = ({ className = '', token }) => {
   const navLinks = useMemo(
     () => [
       { title: 'Home', href: '/' },
-      { title: 'Mitra', href: '/list/travel' },
+      { title: 'Mitra', href: '/travel/list' },
       { title: 'About Us', href: '/about-us' },
     ],
     []
